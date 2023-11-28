@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue App con Composición</title>
+    <!-- Incluye la CDN de Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        // Define el componente Header
+        Vue.component('Header', {
+            template: `
+                <header>
+                    <slot></slot>
+                </header>
+            `
+        });
+
+        // Define el componente Lista
+        Vue.component('Lista', {
+            template: `
+                <div>
+                    <h2>Lista de Elementos</h2>
+                    <ul>
+                        <slot></slot>
+                    </ul>
+                </div>
+            `
+        });
+
+        // Define el componente Formulario
+        Vue.component('Formulario', {
+            template: `
+                <div>
+                    <h2>Formulario</h2>
+                    <form @submit.prevent="submitForm">
+                        <slot></slot>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+            `,
+            methods: {
+                submitForm() {
+                    // Lógica del envío del formulario
+                    console.log('Formulario enviado');
+                },
+            },
+        });
+
+        // Define el componente contenedor (Container)
+        new Vue({
+            el: '#app',
+            template: `
+                <div>
+                    <Header>
+                        <!-- Contenido para el encabezado -->
+                        <h1>¡Mi App Vue!</h1>
+                    </Header>
+
+                    <Lista>
+                        <!-- Contenido para la lista -->
+                        <li>Elemento 1</li>
+                        <li>Elemento 2</li>
+                        <li>Elemento 3</li>
+                    </Lista>
+
+                    <Formulario>
+                        <!-- Contenido para el formulario -->
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" v-model="nombre" />
+                    </Formulario>
+                </div>
+            `,
+            data() {
+                return {
+                    nombre: "",
+                };
+            },
+        });
+    </script>
+</body>
+</html>
